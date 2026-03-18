@@ -1,0 +1,25 @@
+(ns com.zihao.agent-common.interface
+  (:require [com.zihao.agent-common.content-block :as content-block]
+            [com.zihao.agent-common.logger :as logger]
+            [com.zihao.agent-common.usage.normalization :as usage-normalization]))
+
+(def text-block content-block/text-block)
+(def thinking-block content-block/thinking-block)
+(def tool-use-block content-block/tool-use-block)
+(def tool-result-block content-block/tool-result-block)
+(def normalize-content content-block/normalize-content)
+(def extract-text content-block/extract-text)
+(def extract-thinking content-block/extract-thinking)
+(def extract-tool-uses content-block/extract-tool-uses)
+(def extract-tool-results content-block/extract-tool-results)
+(def filter-for-api content-block/filter-for-api)
+(def has-tool-uses? content-block/has-tool-uses?)
+(def has-thinking? content-block/has-thinking?)
+(def debug logger/debug)
+(def info logger/info)
+(def warn logger/warn)
+(def error logger/error)
+(def set-log-level! logger/set-log-level!)
+(def clear-log logger/clear-log)
+(def read-log logger/read-log)
+(def normalize-usage usage-normalization/normalize-usage)
