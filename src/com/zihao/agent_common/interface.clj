@@ -3,23 +3,63 @@
             [com.zihao.agent-common.logger :as logger]
             [com.zihao.agent-common.usage.normalization :as usage-normalization]))
 
-(def text-block content-block/text-block)
-(def thinking-block content-block/thinking-block)
-(def tool-use-block content-block/tool-use-block)
-(def tool-result-block content-block/tool-result-block)
-(def normalize-content content-block/normalize-content)
-(def extract-text content-block/extract-text)
-(def extract-thinking content-block/extract-thinking)
-(def extract-tool-uses content-block/extract-tool-uses)
-(def extract-tool-results content-block/extract-tool-results)
-(def filter-for-api content-block/filter-for-api)
-(def has-tool-uses? content-block/has-tool-uses?)
-(def has-thinking? content-block/has-thinking?)
-(def debug logger/debug)
-(def info logger/info)
-(def warn logger/warn)
-(def error logger/error)
-(def set-log-level! logger/set-log-level!)
-(def clear-log logger/clear-log)
-(def read-log logger/read-log)
-(def normalize-usage usage-normalization/normalize-usage)
+(defn text-block
+  [& args]
+  (apply content-block/text-block args))
+(defn thinking-block
+  [& args]
+  (apply content-block/thinking-block args))
+(defn tool-use-block
+  [& args]
+  (apply content-block/tool-use-block args))
+(defn tool-result-block
+  [& args]
+  (apply content-block/tool-result-block args))
+(defn normalize-content
+  [& args]
+  (apply content-block/normalize-content args))
+(defn extract-text
+  [& args]
+  (apply content-block/extract-text args))
+(defn extract-thinking
+  [& args]
+  (apply content-block/extract-thinking args))
+(defn extract-tool-uses
+  [& args]
+  (apply content-block/extract-tool-uses args))
+(defn extract-tool-results
+  [& args]
+  (apply content-block/extract-tool-results args))
+(defn filter-for-api
+  [& args]
+  (apply content-block/filter-for-api args))
+(defn has-tool-uses?
+  [& args]
+  (apply content-block/has-tool-uses? args))
+(defn has-thinking?
+  [& args]
+  (apply content-block/has-thinking? args))
+(defn debug
+  [& args]
+  (apply logger/debug args))
+(defn info
+  [& args]
+  (apply logger/info args))
+(defn warn
+  [& args]
+  (apply logger/warn args))
+(defn error
+  [& args]
+  (apply logger/error args))
+(defn set-log-level!
+  [& args]
+  (apply logger/set-log-level! args))
+(defn clear-log
+  [& args]
+  (apply logger/clear-log args))
+(defn read-log
+  [& args]
+  (apply logger/read-log args))
+(defn normalize-usage
+  [& args]
+  (apply usage-normalization/normalize-usage args))
