@@ -4,62 +4,62 @@
             [com.zihao.agent-common.usage.normalization :as usage-normalization]))
 
 (defn text-block
-  [& args]
-  (apply content-block/text-block args))
+  [s]
+  (content-block/text-block s))
 (defn thinking-block
-  [& args]
-  (apply content-block/thinking-block args))
+  [s]
+  (content-block/thinking-block s))
 (defn tool-use-block
-  [& args]
-  (apply content-block/tool-use-block args))
+  [id name input]
+  (content-block/tool-use-block id name input))
 (defn tool-result-block
-  [& args]
-  (apply content-block/tool-result-block args))
+  [tool-use-id content-blocks]
+  (content-block/tool-result-block tool-use-id content-blocks))
 (defn normalize-content
-  [& args]
-  (apply content-block/normalize-content args))
+  [content]
+  (content-block/normalize-content content))
 (defn extract-text
-  [& args]
-  (apply content-block/extract-text args))
+  [blocks]
+  (content-block/extract-text blocks))
 (defn extract-thinking
-  [& args]
-  (apply content-block/extract-thinking args))
+  [blocks]
+  (content-block/extract-thinking blocks))
 (defn extract-tool-uses
-  [& args]
-  (apply content-block/extract-tool-uses args))
+  [blocks]
+  (content-block/extract-tool-uses blocks))
 (defn extract-tool-results
-  [& args]
-  (apply content-block/extract-tool-results args))
+  [blocks]
+  (content-block/extract-tool-results blocks))
 (defn filter-for-api
-  [& args]
-  (apply content-block/filter-for-api args))
+  [blocks]
+  (content-block/filter-for-api blocks))
 (defn has-tool-uses?
-  [& args]
-  (apply content-block/has-tool-uses? args))
+  [blocks]
+  (content-block/has-tool-uses? blocks))
 (defn has-thinking?
-  [& args]
-  (apply content-block/has-thinking? args))
+  [blocks]
+  (content-block/has-thinking? blocks))
 (defn debug
-  [& args]
-  (apply logger/debug args))
+  [message]
+  (logger/debug message))
 (defn info
-  [& args]
-  (apply logger/info args))
+  [message]
+  (logger/info message))
 (defn warn
-  [& args]
-  (apply logger/warn args))
+  [message]
+  (logger/warn message))
 (defn error
-  [& args]
-  (apply logger/error args))
+  [message]
+  (logger/error message))
 (defn set-log-level!
-  [& args]
-  (apply logger/set-log-level! args))
+  [level]
+  (logger/set-log-level! level))
 (defn clear-log
-  [& args]
-  (apply logger/clear-log args))
+  []
+  (logger/clear-log))
 (defn read-log
-  [& args]
-  (apply logger/read-log args))
+  []
+  (logger/read-log))
 (defn normalize-usage
-  [& args]
-  (apply usage-normalization/normalize-usage args))
+  ([usage] (usage-normalization/normalize-usage usage))
+  ([backend usage] (usage-normalization/normalize-usage backend usage)))
