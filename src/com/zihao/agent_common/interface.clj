@@ -42,6 +42,9 @@
 (defn debug
   [message]
   (logger/debug message))
+(defn debug-enabled?
+  []
+  (logger/debug-enabled?))
 (defn info
   [message]
   (logger/info message))

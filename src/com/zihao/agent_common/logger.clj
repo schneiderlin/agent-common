@@ -19,6 +19,15 @@
   "Current log level. Messages at or above this level will be logged."
   :debug)
 
+(defn enabled?
+  "Return true when messages at `level` would be emitted under the current log level."
+  [level]
+  (let [message-priority (get log-levels level)
+        current-priority (get log-levels *current-log-level*)]
+    (and (some? message-priority)
+         (some? current-priority)
+         (>= message-priority current-priority))))
+
 (defn- format-log-entry
   "Format a log entry with timestamp and level."
   [level message]
@@ -60,14 +69,18 @@
    - level: :debug, :info, :warn, or :error
    - message: the log message (can be any value, will be converted to string)"
   [level message]
-  (when (>= (get log-levels level)
-            (get log-levels *current-log-level*))
+  (when (enabled? level)
     (write-log level message)))
 
 (defn debug
   "Log a debug message."
   [message]
   (log :debug message))
+
+(defn debug-enabled?
+  "Return true when debug messages would be emitted."
+  []
+  (enabled? :debug))
 
 (defn info
   "Log an info message."
