@@ -66,3 +66,6 @@
 (defn normalize-usage
   ([usage] (usage-normalization/normalize-usage usage))
   ([backend usage] (usage-normalization/normalize-usage backend usage)))
+(defn normalize-provider-usage
+  [usage]
+  (usage-normalization/normalize-provider-usage usage))

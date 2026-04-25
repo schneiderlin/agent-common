@@ -57,6 +57,19 @@
             {:input_tokens 9
              :provider-meta {:region "test"}})))))
 
+(deftest normalize-provider-usage-is-explicit-field-normalization
+  (testing "backend-aware context accounting is intentionally outside usage normalization"
+    (let [usage {:input_tokens 20
+                 :output_tokens 5
+                 :input_tokens_details {:cached_tokens 300}}
+          expected {:input_tokens 20
+                    :output_tokens 5
+                    :cache_creation_tokens 0
+                    :cache_read_tokens 300}]
+      (is (= expected (usage-normalization/normalize-provider-usage usage)))
+      (is (= expected (usage-normalization/normalize-usage :openai usage)))
+      (is (= expected (usage-normalization/normalize-usage :anthropic usage))))))
+
 (deftest normalize-usage-non-map-input
   (testing "returns nil for nil or non-map usage"
     (is (nil? (usage-normalization/normalize-usage nil)))
