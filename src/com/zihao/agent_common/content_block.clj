@@ -1,9 +1,9 @@
 (ns com.zihao.agent-common.content-block
-  "Content Block 统一处理：创建、提取、转换。
-   纯函数，可直接 unit test。"
+  "Unified Content Block handling: creation, extraction, and conversion.
+   Pure functions that can be unit tested directly."
   (:require [clojure.string :as str]))
 
-;; --- 构造函数 ---
+;; --- Constructors ---
 
 (defn text-block [s]
   {:type "text" :text s})
@@ -17,10 +17,10 @@
 (defn tool-result-block [tool-use-id content-blocks]
   {:type "tool_result" :tool_use_id tool-use-id :content (vec content-blocks)})
 
-;; --- 提取函数 ---
+;; --- Extractors ---
 
 (defn extract-text
-  "从 content blocks 中提取所有 text block 的文本，拼接成字符串。"
+  "Extracts text from all text blocks in content blocks and joins it into a string."
   [blocks]
   (->> blocks
        (filter #(= "text" (:type %)))
@@ -28,7 +28,7 @@
        (str/join "")))
 
 (defn extract-thinking
-  "从 content blocks 中提取所有 thinking block 的内容，拼接成字符串。"
+  "Extracts content from all thinking blocks in content blocks and joins it into a string."
   [blocks]
   (->> blocks
        (filter #(= "thinking" (:type %)))
@@ -36,19 +36,19 @@
        (str/join "")))
 
 (defn extract-tool-uses
-  "从 content blocks 中提取所有 tool_use block。"
+  "Extracts all tool_use blocks from content blocks."
   [blocks]
   (filterv #(= "tool_use" (:type %)) blocks))
 
 (defn extract-tool-results
-  "从 content blocks 中提取所有 tool_result block。"
+  "Extracts all tool_result blocks from content blocks."
   [blocks]
   (filterv #(= "tool_result" (:type %)) blocks))
 
-;; --- 转换函数 ---
+;; --- Converters ---
 
 (defn normalize-content
-  "统一 content 格式：string -> [{:type text :text s}]，blocks -> blocks。"
+  "Normalizes content format: string -> [{:type text :text s}], blocks -> blocks."
   [content]
   (cond
     (string? content) [(text-block content)]
@@ -56,19 +56,19 @@
     :else [(text-block (str content))]))
 
 (defn filter-for-api
-  "过滤 content blocks，只保留 API 支持的类型（text, image）。
-   用于 tool_result 的 content 字段。"
+  "Filters content blocks, keeping only API-supported types: text and image.
+   Used for the content field of tool_result."
   [blocks]
   (filterv #(contains? #{"text" "image"} (:type %)) blocks))
 
-;; --- 辅助函数 ---
+;; --- Helpers ---
 
 (defn has-tool-uses?
-  "检查 content blocks 中是否有 tool_use。"
+  "Checks whether content blocks contain a tool_use."
   [blocks]
   (boolean (some #(= "tool_use" (:type %)) blocks)))
 
 (defn has-thinking?
-  "检查 content blocks 中是否有 thinking。"
+  "Checks whether content blocks contain thinking."
   [blocks]
   (boolean (some #(= "thinking" (:type %)) blocks)))
