@@ -1,5 +1,5 @@
 (ns com.zihao.agent-common.cljd-state-test
-  "json->state-delta 纯函数单元测试"
+  "json->state-delta pure function unit tests"
   (:require [com.zihao.agent-common.cljd-state :as cljd-state]
             [clojure.test :refer [deftest is testing]]))
 

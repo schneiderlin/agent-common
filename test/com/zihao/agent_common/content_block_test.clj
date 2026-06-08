@@ -5,7 +5,7 @@
 (defn run-tests []
   (clojure.test/run-tests 'com.zihao.agent-common.content-block-test))
 
-;; --- 构造函数 ---
+;; --- Constructors ---
 
 (deftest text-block-test
   (is (= {:type "text" :text "hello"} (cb/text-block "hello")))
@@ -25,28 +25,28 @@
          (cb/tool-result-block "tu-1" [{:type "text" :text "ok"}])))
   (is (vector? (:content (cb/tool-result-block "x" '({:type "text" :text "a"}))))))
 
-;; --- 提取函数 ---
+;; --- Extractors ---
 
 (deftest extract-text-test
-  (testing "仅 text blocks"
+  (testing "text blocks only"
     (is (= "ab" (cb/extract-text [{:type "text" :text "a"} {:type "text" :text "b"}]))))
-  (testing "忽略 thinking、tool_use"
+  (testing "ignores thinking and tool_use"
     (is (= "hi" (cb/extract-text [{:type "thinking" :thinking "x"}
                                   {:type "text" :text "hi"}
                                   {:type "tool_use" :id "1" :name "n" :input {}}]))))
-  (testing "空 blocks"
+  (testing "empty blocks"
     (is (= "" (cb/extract-text []))))
-  (testing "无 text block"
+  (testing "no text block"
     (is (= "" (cb/extract-text [{:type "thinking" :thinking "only"}])))))
 
 (deftest extract-thinking-test
-  (testing "仅 thinking blocks"
+  (testing "thinking blocks only"
     (is (= "t1t2" (cb/extract-thinking [{:type "thinking" :thinking "t1"}
                                          {:type "thinking" :thinking "t2"}]))))
-  (testing "忽略 text、tool_use"
+  (testing "ignores text and tool_use"
     (is (= "think" (cb/extract-thinking [{:type "text" :text "hi"}
                                          {:type "thinking" :thinking "think"}]))))
-  (testing "空或无 thinking"
+  (testing "empty or no thinking blocks"
     (is (= "" (cb/extract-thinking [])))
     (is (= "" (cb/extract-thinking [{:type "text" :text "x"}])))))
 
@@ -63,32 +63,32 @@
                                    {:type "text" :text "x"}])))
   (is (vector? (cb/extract-tool-results []))))
 
-;; --- 转换函数 ---
+;; --- Converters ---
 
 (deftest normalize-content-test
-  (testing "string -> 单元素 text block 数组"
+  (testing "string -> single-element text block vector"
     (is (= [{:type "text" :text "hello"}] (cb/normalize-content "hello")))
     (is (= [{:type "text" :text ""}] (cb/normalize-content ""))))
-  (testing "sequential -> 原样"
+  (testing "sequential -> unchanged"
     (let [blocks [{:type "text" :text "a"} {:type "thinking" :thinking "b"}]]
       (is (= blocks (cb/normalize-content blocks))))
     (is (= [{:type "text" :text "x"}] (cb/normalize-content '({:type "text" :text "x"})))))
-  (testing "其他类型 -> 转 str 包成 text block"
+  (testing "other types -> stringified text block"
     (is (= [{:type "text" :text "123"}] (cb/normalize-content 123)))
     (is (= [{:type "text" :text ""}] (cb/normalize-content nil)))))
 
 (deftest filter-for-api-test
-  (testing "保留 text 和 image"
+  (testing "keeps text and image"
     (is (= [{:type "text" :text "a"} {:type "image" :source {}}]
            (cb/filter-for-api [{:type "text" :text "a"}
                                {:type "image" :source {}}
                                {:type "diff" :old "o" :new "n" :available? true}
                                {:type "thinking" :thinking "x"}]))))
-  (testing "空或全过滤"
+  (testing "empty or fully filtered"
     (is (= [] (cb/filter-for-api [{:type "diff" :old "o" :new "n"}])))
     (is (vector? (cb/filter-for-api [])))))
 
-;; --- 辅助函数 ---
+;; --- Helpers ---
 
 (deftest has-tool-uses-test
   (is (cb/has-tool-uses? [{:type "tool_use" :id "1" :name "n" :input {}}]))
